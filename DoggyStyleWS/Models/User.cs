@@ -17,9 +17,9 @@ namespace DoggyStyleWS.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.AdoptionRequest = new HashSet<AdoptionRequest>();
             this.Pet = new HashSet<Pet>();
-            this.PetShelter1 = new HashSet<PetShelter>();
+            this.SessionUser = new HashSet<SessionUser>();
+            this.AdoptionRequest = new HashSet<AdoptionRequest>();
         }
     
         public int UserId { get; set; }
@@ -31,14 +31,16 @@ namespace DoggyStyleWS.Models
         public string LastName { get; set; }
         public string Address { get; set; }
         public string State { get; set; }
-        public Nullable<int> PetShelter { get; set; }
         public string Phone { get; set; }
+        public string Description { get; set; }
+        public Nullable<int> Capacity { get; set; }
+        public Nullable<int> AviableCapacity { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdoptionRequest> AdoptionRequest { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pet> Pet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PetShelter> PetShelter1 { get; set; }
+        public virtual ICollection<SessionUser> SessionUser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AdoptionRequest> AdoptionRequest { get; set; }
     }
 }

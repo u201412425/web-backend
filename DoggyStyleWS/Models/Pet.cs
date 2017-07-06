@@ -14,19 +14,25 @@ namespace DoggyStyleWS.Models
     
     public partial class Pet
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Pet()
+        {
+            this.PetAdoption = new HashSet<PetAdoption>();
+        }
+    
         public int PetId { get; set; }
-        public Nullable<int> UserId { get; set; }
+        public int UserId { get; set; }
         public string NamePet { get; set; }
         public string Description { get; set; }
         public string State { get; set; }
         public int Type { get; set; }
         public string SpecialFeatures { get; set; }
-        public Nullable<int> PetShelterId { get; set; }
         public int Age { get; set; }
         public string ImagenUrl { get; set; }
     
-        public virtual PetShelter PetShelter { get; set; }
         public virtual User User { get; set; }
         public virtual PetImage PetImage { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PetAdoption> PetAdoption { get; set; }
     }
 }

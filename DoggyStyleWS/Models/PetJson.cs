@@ -14,7 +14,6 @@ namespace DoggyStyleWS.Models
         public string State { get; set; }
         public int Type { get; set; }
         public string SpecialFeatures { get; set; }
-        public Nullable<int> PetShelterId { get; set; }
         public int Age { get; set; }
         public string ImagenUrl { get; set; }
     }

@@ -13,7 +13,6 @@ namespace DoggyStyleWS.ViewModel.PetViewModel
         public Int32 Type { get; set; }
         public String SpecialFeatures { get; set; }
         public int Age { get; set; }
-        public Int32? PetShelterId { get; set; } 
         public String State { get; set; }
     }
 }

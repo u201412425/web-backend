@@ -25,13 +25,11 @@ namespace DoggyStyleWS.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AdoptionRequest> AdoptionRequest { get; set; }
         public virtual DbSet<Pet> Pet { get; set; }
-        public virtual DbSet<PetAdoption> PetAdoption { get; set; }
         public virtual DbSet<PetImage> PetImage { get; set; }
-        public virtual DbSet<PetShelter> PetShelter { get; set; }
-        public virtual DbSet<PetShelterImage> PetShelterImage { get; set; }
-        public virtual DbSet<PetShelterLocal> PetShelterLocal { get; set; }
+        public virtual DbSet<SessionUser> SessionUser { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<PetAdoption> PetAdoption { get; set; }
+        public virtual DbSet<AdoptionRequest> AdoptionRequest { get; set; }
     }
 }

@@ -9,23 +9,23 @@
           <Key>
             <PropertyRef Name="AdoptionRequestId" />
           </Key>
-          <Property Name="AdoptionRequestId" Type="int" Nullable="false" />
-          <Property Name="UserId" Type="int" />
-          <Property Name="PetIdAdoptionId" Type="int" />
-          <Property Name="State" Type="varchar" MaxLength="3" />
+          <Property Name="AdoptionRequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="PetIdAdoptionId" Type="int" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Pet">
           <Key>
             <PropertyRef Name="PetId" />
           </Key>
           <Property Name="PetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="int" />
+          <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="NamePet" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" Nullable="false" />
           <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="SpecialFeatures" Type="varchar(max)" Nullable="false" />
-          <Property Name="PetShelterId" Type="int" />
           <Property Name="Age" Type="int" Nullable="false" />
           <Property Name="ImagenUrl" Type="nchar" MaxLength="10" Nullable="false" />
         </EntityType>
@@ -33,14 +33,12 @@
           <Key>
             <PropertyRef Name="PetAdoptionId" />
           </Key>
-          <Property Name="PetAdoptionId" Type="int" Nullable="false" />
+          <Property Name="PetAdoptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PetId" Type="int" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" Nullable="false" />
-          <Property Name="PetShelter" Type="int" />
           <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
-          <Property Name="UserId" Type="int" />
           <Property Name="CreatioDate" Type="datetime" Nullable="false" />
-          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" />
         </EntityType>
         <EntityType Name="PetImage">
           <Key>
@@ -51,39 +49,13 @@
           <Property Name="ImageUrl" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
         </EntityType>
-        <EntityType Name="PetShelter">
+        <EntityType Name="SessionUser">
           <Key>
-            <PropertyRef Name="PetShelterId" />
+            <PropertyRef Name="SessionUserId" />
           </Key>
-          <Property Name="PetShelterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SessionUserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="Name" Type="int" Nullable="false" />
-          <Property Name="Phone" Type="int" Nullable="false" />
-          <Property Name="Descriptiom" Type="varchar(max)" Nullable="false" />
-          <Property Name="Capacity" Type="int" Nullable="false" />
-          <Property Name="AviableCapacity" Type="int" Nullable="false" />
-          <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
-          <Property Name="ImagenUrl" Type="varchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="PetShelterImage">
-          <Key>
-            <PropertyRef Name="PetShelterImage" />
-          </Key>
-          <Property Name="PetShelterImage" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PetShelterId" Type="int" Nullable="false" />
-          <Property Name="ImageUrl" Type="int" Nullable="false" />
-          <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PetShelterLocal">
-          <Key>
-            <PropertyRef Name="PetShelterLocalId" />
-          </Key>
-          <Property Name="PetShelterLocalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Address" Type="int" Nullable="false" />
-          <Property Name="Phone" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Description" Type="varchar(max)" Nullable="false" />
-          <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
-          <Property Name="PetShelterId" Type="int" Nullable="false" />
+          <Property Name="Token" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -98,11 +70,13 @@
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Address" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
-          <Property Name="PetShelter" Type="int" />
           <Property Name="Phone" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Capacity" Type="int" />
+          <Property Name="AviableCapacity" Type="int" />
         </EntityType>
-        <Association Name="FK_AdoptionRequest_PetAdoption">
-          <End Role="PetAdoption" Type="Self.PetAdoption" Multiplicity="0..1" />
+        <Association Name="FK_AdoptionRequest_PetAdoption1">
+          <End Role="PetAdoption" Type="Self.PetAdoption" Multiplicity="1" />
           <End Role="AdoptionRequest" Type="Self.AdoptionRequest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PetAdoption">
@@ -114,7 +88,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AdoptionRequest_User">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="AdoptionRequest" Type="Self.AdoptionRequest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -125,20 +99,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Pet_PetShelter">
-          <End Role="PetShelter" Type="Self.PetShelter" Multiplicity="0..1" />
-          <End Role="Pet" Type="Self.Pet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PetShelter">
-              <PropertyRef Name="PetShelterId" />
-            </Principal>
-            <Dependent Role="Pet">
-              <PropertyRef Name="PetShelterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Pet_User">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Pet" Type="Self.Pet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -146,6 +108,18 @@
             </Principal>
             <Dependent Role="Pet">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetAdoption_Pet">
+          <End Role="Pet" Type="Self.Pet" Multiplicity="1" />
+          <End Role="PetAdoption" Type="Self.PetAdoption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pet">
+              <PropertyRef Name="PetId" />
+            </Principal>
+            <Dependent Role="PetAdoption">
+              <PropertyRef Name="PetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -161,39 +135,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PetShelter_User">
+        <Association Name="FK_SessionUser_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="PetShelter" Type="Self.PetShelter" Multiplicity="*" />
+          <End Role="SessionUser" Type="Self.SessionUser" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="UserId" />
             </Principal>
-            <Dependent Role="PetShelter">
+            <Dependent Role="SessionUser">
               <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PetShelterImage_PetShelter">
-          <End Role="PetShelter" Type="Self.PetShelter" Multiplicity="1" />
-          <End Role="PetShelterImage" Type="Self.PetShelterImage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PetShelter">
-              <PropertyRef Name="PetShelterId" />
-            </Principal>
-            <Dependent Role="PetShelterImage">
-              <PropertyRef Name="PetShelterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PetShelterLocal_PetShelter">
-          <End Role="PetShelter" Type="Self.PetShelter" Multiplicity="1" />
-          <End Role="PetShelterLocal" Type="Self.PetShelterLocal" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PetShelter">
-              <PropertyRef Name="PetShelterId" />
-            </Principal>
-            <Dependent Role="PetShelterLocal">
-              <PropertyRef Name="PetShelterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -202,11 +152,9 @@
           <EntitySet Name="Pet" EntityType="Self.Pet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetAdoption" EntityType="Self.PetAdoption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetImage" EntityType="Self.PetImage" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PetShelter" EntityType="Self.PetShelter" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PetShelterImage" EntityType="Self.PetShelterImage" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PetShelterLocal" EntityType="Self.PetShelterLocal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SessionUser" EntityType="Self.SessionUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_AdoptionRequest_PetAdoption" Association="Self.FK_AdoptionRequest_PetAdoption">
+          <AssociationSet Name="FK_AdoptionRequest_PetAdoption1" Association="Self.FK_AdoptionRequest_PetAdoption1">
             <End Role="PetAdoption" EntitySet="PetAdoption" />
             <End Role="AdoptionRequest" EntitySet="AdoptionRequest" />
           </AssociationSet>
@@ -214,29 +162,21 @@
             <End Role="User" EntitySet="User" />
             <End Role="AdoptionRequest" EntitySet="AdoptionRequest" />
           </AssociationSet>
-          <AssociationSet Name="FK_Pet_PetShelter" Association="Self.FK_Pet_PetShelter">
-            <End Role="PetShelter" EntitySet="PetShelter" />
-            <End Role="Pet" EntitySet="Pet" />
-          </AssociationSet>
           <AssociationSet Name="FK_Pet_User" Association="Self.FK_Pet_User">
             <End Role="User" EntitySet="User" />
             <End Role="Pet" EntitySet="Pet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetAdoption_Pet" Association="Self.FK_PetAdoption_Pet">
+            <End Role="Pet" EntitySet="Pet" />
+            <End Role="PetAdoption" EntitySet="PetAdoption" />
           </AssociationSet>
           <AssociationSet Name="FK_PetImage_Pet" Association="Self.FK_PetImage_Pet">
             <End Role="Pet" EntitySet="Pet" />
             <End Role="PetImage" EntitySet="PetImage" />
           </AssociationSet>
-          <AssociationSet Name="FK_PetShelter_User" Association="Self.FK_PetShelter_User">
+          <AssociationSet Name="FK_SessionUser_User" Association="Self.FK_SessionUser_User">
             <End Role="User" EntitySet="User" />
-            <End Role="PetShelter" EntitySet="PetShelter" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PetShelterImage_PetShelter" Association="Self.FK_PetShelterImage_PetShelter">
-            <End Role="PetShelter" EntitySet="PetShelter" />
-            <End Role="PetShelterImage" EntitySet="PetShelterImage" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PetShelterLocal_PetShelter" Association="Self.FK_PetShelterLocal_PetShelter">
-            <End Role="PetShelter" EntitySet="PetShelter" />
-            <End Role="PetShelterLocal" EntitySet="PetShelterLocal" />
+            <End Role="SessionUser" EntitySet="SessionUser" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -244,26 +184,10 @@
     <edmx:ConceptualModels>
       <Schema Namespace="DoggyStyleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="DoggyStyleEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AdoptionRequest" EntityType="DoggyStyleModel.AdoptionRequest" />
           <EntitySet Name="Pet" EntityType="DoggyStyleModel.Pet" />
-          <EntitySet Name="PetAdoption" EntityType="DoggyStyleModel.PetAdoption" />
           <EntitySet Name="PetImage" EntityType="DoggyStyleModel.PetImage" />
-          <EntitySet Name="PetShelter" EntityType="DoggyStyleModel.PetShelter" />
-          <EntitySet Name="PetShelterImage" EntityType="DoggyStyleModel.PetShelterImage" />
-          <EntitySet Name="PetShelterLocal" EntityType="DoggyStyleModel.PetShelterLocal" />
+          <EntitySet Name="SessionUser" EntityType="DoggyStyleModel.SessionUser" />
           <EntitySet Name="User" EntityType="DoggyStyleModel.User" />
-          <AssociationSet Name="FK_AdoptionRequest_PetAdoption" Association="DoggyStyleModel.FK_AdoptionRequest_PetAdoption">
-            <End Role="PetAdoption" EntitySet="PetAdoption" />
-            <End Role="AdoptionRequest" EntitySet="AdoptionRequest" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AdoptionRequest_User" Association="DoggyStyleModel.FK_AdoptionRequest_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="AdoptionRequest" EntitySet="AdoptionRequest" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Pet_PetShelter" Association="DoggyStyleModel.FK_Pet_PetShelter">
-            <End Role="PetShelter" EntitySet="PetShelter" />
-            <End Role="Pet" EntitySet="Pet" />
-          </AssociationSet>
           <AssociationSet Name="FK_Pet_User" Association="DoggyStyleModel.FK_Pet_User">
             <End Role="User" EntitySet="User" />
             <End Role="Pet" EntitySet="Pet" />
@@ -272,61 +196,41 @@
             <End Role="Pet" EntitySet="Pet" />
             <End Role="PetImage" EntitySet="PetImage" />
           </AssociationSet>
-          <AssociationSet Name="FK_PetShelter_User" Association="DoggyStyleModel.FK_PetShelter_User">
+          <AssociationSet Name="FK_SessionUser_User" Association="DoggyStyleModel.FK_SessionUser_User">
             <End Role="User" EntitySet="User" />
-            <End Role="PetShelter" EntitySet="PetShelter" />
+            <End Role="SessionUser" EntitySet="SessionUser" />
           </AssociationSet>
-          <AssociationSet Name="FK_PetShelterImage_PetShelter" Association="DoggyStyleModel.FK_PetShelterImage_PetShelter">
-            <End Role="PetShelter" EntitySet="PetShelter" />
-            <End Role="PetShelterImage" EntitySet="PetShelterImage" />
+          <EntitySet Name="PetAdoption" EntityType="DoggyStyleModel.PetAdoption" />
+          <AssociationSet Name="FK_PetAdoption_Pet" Association="DoggyStyleModel.FK_PetAdoption_Pet">
+            <End Role="Pet" EntitySet="Pet" />
+            <End Role="PetAdoption" EntitySet="PetAdoption" />
           </AssociationSet>
-          <AssociationSet Name="FK_PetShelterLocal_PetShelter" Association="DoggyStyleModel.FK_PetShelterLocal_PetShelter">
-            <End Role="PetShelter" EntitySet="PetShelter" />
-            <End Role="PetShelterLocal" EntitySet="PetShelterLocal" />
+          <EntitySet Name="AdoptionRequest" EntityType="DoggyStyleModel.AdoptionRequest" />
+          <AssociationSet Name="FK_AdoptionRequest_PetAdoption1" Association="DoggyStyleModel.FK_AdoptionRequest_PetAdoption1">
+            <End Role="PetAdoption" EntitySet="PetAdoption" />
+            <End Role="AdoptionRequest" EntitySet="AdoptionRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdoptionRequest_User" Association="DoggyStyleModel.FK_AdoptionRequest_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="AdoptionRequest" EntitySet="AdoptionRequest" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="AdoptionRequest">
-          <Key>
-            <PropertyRef Name="AdoptionRequestId" />
-          </Key>
-          <Property Name="AdoptionRequestId" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="Int32" />
-          <Property Name="PetIdAdoptionId" Type="Int32" />
-          <Property Name="State" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PetAdoption" Relationship="DoggyStyleModel.FK_AdoptionRequest_PetAdoption" FromRole="AdoptionRequest" ToRole="PetAdoption" />
-          <NavigationProperty Name="User" Relationship="DoggyStyleModel.FK_AdoptionRequest_User" FromRole="AdoptionRequest" ToRole="User" />
-        </EntityType>
         <EntityType Name="Pet">
           <Key>
             <PropertyRef Name="PetId" />
           </Key>
           <Property Name="PetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="NamePet" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="State" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
           <Property Name="Type" Type="Int32" Nullable="false" />
           <Property Name="SpecialFeatures" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="PetShelterId" Type="Int32" />
           <Property Name="Age" Type="Int32" Nullable="false" />
           <Property Name="ImagenUrl" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="PetShelter" Relationship="DoggyStyleModel.FK_Pet_PetShelter" FromRole="Pet" ToRole="PetShelter" />
           <NavigationProperty Name="User" Relationship="DoggyStyleModel.FK_Pet_User" FromRole="Pet" ToRole="User" />
           <NavigationProperty Name="PetImage" Relationship="DoggyStyleModel.FK_PetImage_Pet" FromRole="Pet" ToRole="PetImage" />
-        </EntityType>
-        <EntityType Name="PetAdoption">
-          <Key>
-            <PropertyRef Name="PetAdoptionId" />
-          </Key>
-          <Property Name="PetAdoptionId" Type="Int32" Nullable="false" />
-          <Property Name="PetId" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="PetShelter" Type="Int32" />
-          <Property Name="State" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="UserId" Type="Int32" />
-          <Property Name="CreatioDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="AdoptionRequest" Relationship="DoggyStyleModel.FK_AdoptionRequest_PetAdoption" FromRole="PetAdoption" ToRole="AdoptionRequest" />
+          <NavigationProperty Name="PetAdoption" Relationship="DoggyStyleModel.FK_PetAdoption_Pet" FromRole="Pet" ToRole="PetAdoption" />
         </EntityType>
         <EntityType Name="PetImage">
           <Key>
@@ -338,45 +242,14 @@
           <Property Name="State" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Pet" Relationship="DoggyStyleModel.FK_PetImage_Pet" FromRole="PetImage" ToRole="Pet" />
         </EntityType>
-        <EntityType Name="PetShelter">
+        <EntityType Name="SessionUser">
           <Key>
-            <PropertyRef Name="PetShelterId" />
+            <PropertyRef Name="SessionUserId" />
           </Key>
-          <Property Name="PetShelterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SessionUserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="Int32" Nullable="false" />
-          <Property Name="Phone" Type="Int32" Nullable="false" />
-          <Property Name="Descriptiom" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Capacity" Type="Int32" Nullable="false" />
-          <Property Name="AviableCapacity" Type="Int32" Nullable="false" />
-          <Property Name="State" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="ImagenUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Pet" Relationship="DoggyStyleModel.FK_Pet_PetShelter" FromRole="PetShelter" ToRole="Pet" />
-          <NavigationProperty Name="User" Relationship="DoggyStyleModel.FK_PetShelter_User" FromRole="PetShelter" ToRole="User" />
-          <NavigationProperty Name="PetShelterImage" Relationship="DoggyStyleModel.FK_PetShelterImage_PetShelter" FromRole="PetShelter" ToRole="PetShelterImage" />
-          <NavigationProperty Name="PetShelterLocal" Relationship="DoggyStyleModel.FK_PetShelterLocal_PetShelter" FromRole="PetShelter" ToRole="PetShelterLocal" />
-        </EntityType>
-        <EntityType Name="PetShelterImage">
-          <Key>
-            <PropertyRef Name="PetShelterImage1" />
-          </Key>
-          <Property Name="PetShelterImage1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PetShelterId" Type="Int32" Nullable="false" />
-          <Property Name="ImageUrl" Type="Int32" Nullable="false" />
-          <Property Name="State" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PetShelter" Relationship="DoggyStyleModel.FK_PetShelterImage_PetShelter" FromRole="PetShelterImage" ToRole="PetShelter" />
-        </EntityType>
-        <EntityType Name="PetShelterLocal">
-          <Key>
-            <PropertyRef Name="PetShelterLocalId" />
-          </Key>
-          <Property Name="PetShelterLocalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Address" Type="Int32" Nullable="false" />
-          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="PetShelterId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PetShelter" Relationship="DoggyStyleModel.FK_PetShelterLocal_PetShelter" FromRole="PetShelterLocal" ToRole="PetShelter" />
+          <Property Name="Token" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="DoggyStyleModel.FK_SessionUser_User" FromRole="SessionUser" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -391,50 +264,16 @@
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="State" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="PetShelter" Type="Int32" />
           <Property Name="Phone" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="AdoptionRequest" Relationship="DoggyStyleModel.FK_AdoptionRequest_User" FromRole="User" ToRole="AdoptionRequest" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Capacity" Type="Int32" />
+          <Property Name="AviableCapacity" Type="Int32" />
           <NavigationProperty Name="Pet" Relationship="DoggyStyleModel.FK_Pet_User" FromRole="User" ToRole="Pet" />
-          <NavigationProperty Name="PetShelter1" Relationship="DoggyStyleModel.FK_PetShelter_User" FromRole="User" ToRole="PetShelter" />
+          <NavigationProperty Name="SessionUser" Relationship="DoggyStyleModel.FK_SessionUser_User" FromRole="User" ToRole="SessionUser" />
+          <NavigationProperty Name="AdoptionRequest" Relationship="DoggyStyleModel.FK_AdoptionRequest_User" FromRole="User" ToRole="AdoptionRequest" />
         </EntityType>
-        <Association Name="FK_AdoptionRequest_PetAdoption">
-          <End Type="DoggyStyleModel.PetAdoption" Role="PetAdoption" Multiplicity="0..1" />
-          <End Type="DoggyStyleModel.AdoptionRequest" Role="AdoptionRequest" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PetAdoption">
-              <PropertyRef Name="PetAdoptionId" />
-            </Principal>
-            <Dependent Role="AdoptionRequest">
-              <PropertyRef Name="PetIdAdoptionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AdoptionRequest_User">
-          <End Type="DoggyStyleModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="DoggyStyleModel.AdoptionRequest" Role="AdoptionRequest" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="AdoptionRequest">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Pet_PetShelter">
-          <End Type="DoggyStyleModel.PetShelter" Role="PetShelter" Multiplicity="0..1" />
-          <End Type="DoggyStyleModel.Pet" Role="Pet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PetShelter">
-              <PropertyRef Name="PetShelterId" />
-            </Principal>
-            <Dependent Role="Pet">
-              <PropertyRef Name="PetShelterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Pet_User">
-          <End Type="DoggyStyleModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="DoggyStyleModel.User" Role="User" Multiplicity="1" />
           <End Type="DoggyStyleModel.Pet" Role="Pet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -457,64 +296,90 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PetShelter_User">
+        <Association Name="FK_SessionUser_User">
           <End Type="DoggyStyleModel.User" Role="User" Multiplicity="1" />
-          <End Type="DoggyStyleModel.PetShelter" Role="PetShelter" Multiplicity="*" />
+          <End Type="DoggyStyleModel.SessionUser" Role="SessionUser" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="UserId" />
             </Principal>
-            <Dependent Role="PetShelter">
+            <Dependent Role="SessionUser">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PetShelterImage_PetShelter">
-          <End Type="DoggyStyleModel.PetShelter" Role="PetShelter" Multiplicity="1" />
-          <End Type="DoggyStyleModel.PetShelterImage" Role="PetShelterImage" Multiplicity="*" />
+        <EntityType Name="PetAdoption">
+          <Key>
+            <PropertyRef Name="PetAdoptionId" />
+          </Key>
+          <Property Name="PetAdoptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PetId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="CreatioDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Pet" Relationship="DoggyStyleModel.FK_PetAdoption_Pet" FromRole="PetAdoption" ToRole="Pet" />
+          <NavigationProperty Name="AdoptionRequest" Relationship="DoggyStyleModel.FK_AdoptionRequest_PetAdoption1" FromRole="PetAdoption" ToRole="AdoptionRequest" />
+        </EntityType>
+        <Association Name="FK_PetAdoption_Pet">
+          <End Type="DoggyStyleModel.Pet" Role="Pet" Multiplicity="1" />
+          <End Type="DoggyStyleModel.PetAdoption" Role="PetAdoption" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PetShelter">
-              <PropertyRef Name="PetShelterId" />
+            <Principal Role="Pet">
+              <PropertyRef Name="PetId" />
             </Principal>
-            <Dependent Role="PetShelterImage">
-              <PropertyRef Name="PetShelterId" />
+            <Dependent Role="PetAdoption">
+              <PropertyRef Name="PetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PetShelterLocal_PetShelter">
-          <End Type="DoggyStyleModel.PetShelter" Role="PetShelter" Multiplicity="1" />
-          <End Type="DoggyStyleModel.PetShelterLocal" Role="PetShelterLocal" Multiplicity="*" />
+        <EntityType Name="AdoptionRequest">
+          <Key>
+            <PropertyRef Name="AdoptionRequestId" />
+          </Key>
+          <Property Name="AdoptionRequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="PetIdAdoptionId" Type="Int32" Nullable="false" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PetAdoption" Relationship="DoggyStyleModel.FK_AdoptionRequest_PetAdoption1" FromRole="AdoptionRequest" ToRole="PetAdoption" />
+          <NavigationProperty Name="User" Relationship="DoggyStyleModel.FK_AdoptionRequest_User" FromRole="AdoptionRequest" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_AdoptionRequest_PetAdoption1">
+          <End Type="DoggyStyleModel.PetAdoption" Role="PetAdoption" Multiplicity="1" />
+          <End Type="DoggyStyleModel.AdoptionRequest" Role="AdoptionRequest" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PetShelter">
-              <PropertyRef Name="PetShelterId" />
+            <Principal Role="PetAdoption">
+              <PropertyRef Name="PetAdoptionId" />
             </Principal>
-            <Dependent Role="PetShelterLocal">
-              <PropertyRef Name="PetShelterId" />
+            <Dependent Role="AdoptionRequest">
+              <PropertyRef Name="PetIdAdoptionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_AdoptionRequest_User">
+          <End Type="DoggyStyleModel.User" Role="User" Multiplicity="1" />
+          <End Type="DoggyStyleModel.AdoptionRequest" Role="AdoptionRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="AdoptionRequest">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DoggyStyleModelStoreContainer" CdmEntityContainer="DoggyStyleEntities">
-          <EntitySetMapping Name="AdoptionRequest">
-            <EntityTypeMapping TypeName="DoggyStyleModel.AdoptionRequest">
-              <MappingFragment StoreEntitySet="AdoptionRequest">
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="PetIdAdoptionId" ColumnName="PetIdAdoptionId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="AdoptionRequestId" ColumnName="AdoptionRequestId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Pet">
             <EntityTypeMapping TypeName="DoggyStyleModel.Pet">
               <MappingFragment StoreEntitySet="Pet">
                 <ScalarProperty Name="ImagenUrl" ColumnName="ImagenUrl" />
                 <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="PetShelterId" ColumnName="PetShelterId" />
                 <ScalarProperty Name="SpecialFeatures" ColumnName="SpecialFeatures" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="State" ColumnName="State" />
@@ -522,20 +387,6 @@
                 <ScalarProperty Name="NamePet" ColumnName="NamePet" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="PetId" ColumnName="PetId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PetAdoption">
-            <EntityTypeMapping TypeName="DoggyStyleModel.PetAdoption">
-              <MappingFragment StoreEntitySet="PetAdoption">
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="CreatioDate" ColumnName="CreatioDate" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="PetShelter" ColumnName="PetShelter" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="PetId" ColumnName="PetId" />
-                <ScalarProperty Name="PetAdoptionId" ColumnName="PetAdoptionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -549,48 +400,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PetShelter">
-            <EntityTypeMapping TypeName="DoggyStyleModel.PetShelter">
-              <MappingFragment StoreEntitySet="PetShelter">
-                <ScalarProperty Name="ImagenUrl" ColumnName="ImagenUrl" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="AviableCapacity" ColumnName="AviableCapacity" />
-                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
-                <ScalarProperty Name="Descriptiom" ColumnName="Descriptiom" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="SessionUser">
+            <EntityTypeMapping TypeName="DoggyStyleModel.SessionUser">
+              <MappingFragment StoreEntitySet="SessionUser">
+                <ScalarProperty Name="Token" ColumnName="Token" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="PetShelterId" ColumnName="PetShelterId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PetShelterImage">
-            <EntityTypeMapping TypeName="DoggyStyleModel.PetShelterImage">
-              <MappingFragment StoreEntitySet="PetShelterImage">
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="PetShelterId" ColumnName="PetShelterId" />
-                <ScalarProperty Name="PetShelterImage1" ColumnName="PetShelterImage" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PetShelterLocal">
-            <EntityTypeMapping TypeName="DoggyStyleModel.PetShelterLocal">
-              <MappingFragment StoreEntitySet="PetShelterLocal">
-                <ScalarProperty Name="PetShelterId" ColumnName="PetShelterId" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="PetShelterLocalId" ColumnName="PetShelterLocalId" />
+                <ScalarProperty Name="SessionUserId" ColumnName="SessionUserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="DoggyStyleModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="AviableCapacity" ColumnName="AviableCapacity" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="PetShelter" ColumnName="PetShelter" />
                 <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -600,6 +425,29 @@
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PetAdoption">
+            <EntityTypeMapping TypeName="DoggyStyleModel.PetAdoption">
+              <MappingFragment StoreEntitySet="PetAdoption">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="CreatioDate" ColumnName="CreatioDate" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PetId" ColumnName="PetId" />
+                <ScalarProperty Name="PetAdoptionId" ColumnName="PetAdoptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdoptionRequest">
+            <EntityTypeMapping TypeName="DoggyStyleModel.AdoptionRequest">
+              <MappingFragment StoreEntitySet="AdoptionRequest">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="PetIdAdoptionId" ColumnName="PetIdAdoptionId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AdoptionRequestId" ColumnName="AdoptionRequestId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

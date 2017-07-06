@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DoggyStyleModelStoreContainer" CdmEntityContainer="DoggyStyleEntities">
+    <EntitySetMapping Name="Pet">
+      <EntityTypeMapping TypeName="DoggyStyleModel.Pet">
+        <MappingFragment StoreEntitySet="Pet">
+          <ScalarProperty Name="ImagenUrl" ColumnName="ImagenUrl" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="SpecialFeatures" ColumnName="SpecialFeatures" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="NamePet" ColumnName="NamePet" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PetId" ColumnName="PetId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PetImage">
+      <EntityTypeMapping TypeName="DoggyStyleModel.PetImage">
+        <MappingFragment StoreEntitySet="PetImage">
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="PetId" ColumnName="PetId" />
+          <ScalarProperty Name="PetImageId" ColumnName="PetImageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SessionUser">
+      <EntityTypeMapping TypeName="DoggyStyleModel.SessionUser">
+        <MappingFragment StoreEntitySet="SessionUser">
+          <ScalarProperty Name="Token" ColumnName="Token" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="SessionUserId" ColumnName="SessionUserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="DoggyStyleModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="AviableCapacity" ColumnName="AviableCapacity" />
+          <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PetAdoption">
+      <EntityTypeMapping TypeName="DoggyStyleModel.PetAdoption">
+        <MappingFragment StoreEntitySet="PetAdoption">
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="CreatioDate" ColumnName="CreatioDate" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="PetId" ColumnName="PetId" />
+          <ScalarProperty Name="PetAdoptionId" ColumnName="PetAdoptionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdoptionRequest">
+      <EntityTypeMapping TypeName="DoggyStyleModel.AdoptionRequest">
+        <MappingFragment StoreEntitySet="AdoptionRequest">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="PetIdAdoptionId" ColumnName="PetIdAdoptionId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="AdoptionRequestId" ColumnName="AdoptionRequestId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

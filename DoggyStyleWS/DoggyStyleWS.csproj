@@ -159,8 +159,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\adoptionrequest\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\petshelter\" />
     <Folder Include="Views\Pet\" />
+    <Folder Include="Views\Session\" />
+    <Folder Include="Views\shelter\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -195,6 +199,10 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\adoptionrequestController.cs" />
+    <Compile Include="Controllers\petadoptionController.cs" />
+    <Compile Include="Controllers\SessionController.cs" />
+    <Compile Include="Controllers\shelterController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -208,6 +216,7 @@
     <Compile Include="Models\AdoptionRequest.cs">
       <DependentUpon>DoggyStyleModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdoptionRequestJson.cs" />
     <Compile Include="Models\DoggyStyleModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -233,20 +242,19 @@
       <DependentUpon>DoggyStyleModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PetJson.cs" />
-    <Compile Include="Models\PetShelter.cs">
+    <Compile Include="Models\PetShelterLocalJson.cs" />
+    <Compile Include="Models\SessionUser.cs">
       <DependentUpon>DoggyStyleModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PetShelterImage.cs">
-      <DependentUpon>DoggyStyleModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PetShelterLocal.cs">
-      <DependentUpon>DoggyStyleModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\PetShelterJson.cs" />
     <Compile Include="Models\User.cs">
       <DependentUpon>DoggyStyleModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserJson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\AdoptionRequest\CreateAdoptionRequestViewModel.cs" />
+    <Compile Include="ViewModel\PetAdoptionViewModel\CreatePetAdoptionViewModel.cs" />
+    <Compile Include="ViewModel\ShelterViewModel\UpdatePetShelterViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel\CreateUserViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel\UpdateUserViewModel.cs" />
     <Compile Include="ViewModel\GenericObjectVM.cs" />
@@ -301,13 +309,19 @@
     <Content Include="Models\DoggyStyleModel.edmx.diagram">
       <DependentUpon>DoggyStyleModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\adas.pubxml" />
+    <None Include="Properties\PublishProfiles\Desarrollo.pubxml" />
+    <None Include="Properties\PublishProfiles\vcsoft.pe - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\vcsoft.pe - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

@@ -4,23 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3c575f62c19b47d1acee39208698ab02" Name="Diagram1" ZoomLevel="47">
-        <EntityTypeShape EntityType="DoggyStyleModel.AdoptionRequest" Width="1.5" PointX="3" PointY="6.5" />
-        <EntityTypeShape EntityType="DoggyStyleModel.Pet" Width="1.5" PointX="5.25" PointY="7.375" />
-        <EntityTypeShape EntityType="DoggyStyleModel.PetAdoption" Width="1.5" PointX="0.75" PointY="2.25" />
-        <EntityTypeShape EntityType="DoggyStyleModel.PetImage" Width="1.5" PointX="7.5" PointY="8.125" />
-        <EntityTypeShape EntityType="DoggyStyleModel.PetShelter" Width="1.5" PointX="3" PointY="13" />
-        <EntityTypeShape EntityType="DoggyStyleModel.PetShelterImage" Width="1.5" PointX="5.25" PointY="12.25" />
-        <EntityTypeShape EntityType="DoggyStyleModel.PetShelterLocal" Width="1.5" PointX="5.25" PointY="15" />
-        <EntityTypeShape EntityType="DoggyStyleModel.User" Width="1.5" PointX="0.75" PointY="5.75" />
-        <AssociationConnector Association="DoggyStyleModel.FK_AdoptionRequest_PetAdoption" />
-        <AssociationConnector Association="DoggyStyleModel.FK_AdoptionRequest_User" />
-        <AssociationConnector Association="DoggyStyleModel.FK_Pet_PetShelter" />
+      <Diagram DiagramId="3c575f62c19b47d1acee39208698ab02" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="DoggyStyleModel.Pet" Width="1.5" PointX="3" PointY="9.625" />
+        <EntityTypeShape EntityType="DoggyStyleModel.PetImage" Width="1.5" PointX="5.25" PointY="8.625" />
+        <EntityTypeShape EntityType="DoggyStyleModel.SessionUser" Width="1.5" PointX="3" PointY="2.875" />
+        <EntityTypeShape EntityType="DoggyStyleModel.User" Width="1.5" PointX="0.75" PointY="4.75" />
         <AssociationConnector Association="DoggyStyleModel.FK_Pet_User" />
         <AssociationConnector Association="DoggyStyleModel.FK_PetImage_Pet" />
-        <AssociationConnector Association="DoggyStyleModel.FK_PetShelter_User" />
-        <AssociationConnector Association="DoggyStyleModel.FK_PetShelterImage_PetShelter" />
-        <AssociationConnector Association="DoggyStyleModel.FK_PetShelterLocal_PetShelter" />
+        <AssociationConnector Association="DoggyStyleModel.FK_SessionUser_User" />
+        <EntityTypeShape EntityType="DoggyStyleModel.PetAdoption" Width="1.5" PointX="5.25" PointY="12" />
+        <AssociationConnector Association="DoggyStyleModel.FK_PetAdoption_Pet" />
+        <EntityTypeShape EntityType="DoggyStyleModel.AdoptionRequest" Width="1.5" PointX="7.5" PointY="8.5" />
+        <AssociationConnector Association="DoggyStyleModel.FK_AdoptionRequest_PetAdoption1" />
+        <AssociationConnector Association="DoggyStyleModel.FK_AdoptionRequest_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

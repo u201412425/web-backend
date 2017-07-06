@@ -15,9 +15,10 @@ namespace DoggyStyleWS.Models
     public partial class AdoptionRequest
     {
         public int AdoptionRequestId { get; set; }
-        public Nullable<int> UserId { get; set; }
-        public Nullable<int> PetIdAdoptionId { get; set; }
+        public int UserId { get; set; }
+        public int PetIdAdoptionId { get; set; }
         public string State { get; set; }
+        public string Description { get; set; }
     
         public virtual PetAdoption PetAdoption { get; set; }
         public virtual User User { get; set; }

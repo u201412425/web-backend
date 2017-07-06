@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="vcsoft.pe/DoggyStyle" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^E:\\UPC\\Moviles\\DoggyStyle\\DoggyStyleWS\\DoggyStyleWS\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^E:\\UPC\\Moviles\\DoggyStyle\\DoggyStyleWS\\DoggyStyleWS\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DoggyStyleEntities-Web.config Connection String" description="" value="metadata=res://*/Models.DoggyStyleModel.csdl|res://*/Models.DoggyStyleModel.ssdl|res://*/Models.DoggyStyleModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=s12.winhost.com;Initial Catalog=DB_109177_dds;Persist Security Info=True;User ID=DB_109177_dds_user;Password=dds1234&quot;" tags="">
+    <parameterEntry kind="XmlFile" scope="E:\\UPC\\Moviles\\DoggyStyle\\DoggyStyleWS\\DoggyStyleWS\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DoggyStyleEntities']/@connectionString" />
+  </parameter>
+</parameters>

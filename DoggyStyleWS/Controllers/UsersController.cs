@@ -38,10 +38,11 @@ namespace DoggyStyleWS.Controllers
                 return responseBody;
             }
        
-        } 
-        public void Post(CreateUserViewModel model)
+        }
+        [HttpPost]
+        public GenericObjectVM<String> Post(CreateUserViewModel model)
         {
-           
+            var responseBody = new GenericObjectVM<String>();
             try
             {
                 User user = new User();
@@ -56,7 +57,7 @@ namespace DoggyStyleWS.Controllers
                 user.Phone = model.Phone;
                 context.User.Add(user);
                 context.SaveChanges();
-                
+                return responseBody;
             
             }
             catch (Exception ex)
@@ -64,7 +65,7 @@ namespace DoggyStyleWS.Controllers
 
              
             }
-
+            return responseBody;
         }
 
         public GenericObjectVM<String> Put(int id,[FromBody]UpdateUserViewModel model)
@@ -72,12 +73,13 @@ namespace DoggyStyleWS.Controllers
             var response = new GenericObjectVM<String>();
             try
             {
+
+
                 User user = null;
                 if (id == 0)
                 {
                     user = new User();
                     context.User.Add(user);
-                    user.Type = 1;
                     user.State = "ACT";
                 }
                 else
@@ -97,7 +99,12 @@ namespace DoggyStyleWS.Controllers
                 user.LastName = model.LastName;
                 user.Address = model.Address;
                 user.Phone = model.Phone;
+                user.Type = model.Type;
+                user.Description = model.Description; 
+                user.Capacity = model.Capacity;
+                user.AviableCapacity = model.AviableCapacity;
                 context.SaveChanges();
+
                 response.Code = (int)HttpStatusCode.OK;
                 response.Result = "Correcto";
                 response.Message = "Successful Create";
@@ -117,7 +124,7 @@ namespace DoggyStyleWS.Controllers
         {
             var responseBody = new GenericObjectVM<String>();
             User user = context.User.Find(id);
-            context.User.Remove(user);
+            user.State = "INA";
             context.SaveChanges();
             responseBody.Message = "Correcto";
             responseBody.Result = "Eliminado";

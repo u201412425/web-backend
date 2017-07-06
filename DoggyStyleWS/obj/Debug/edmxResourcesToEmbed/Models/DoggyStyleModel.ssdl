@@ -4,23 +4,23 @@
     <Key>
       <PropertyRef Name="AdoptionRequestId" />
     </Key>
-    <Property Name="AdoptionRequestId" Type="int" Nullable="false" />
-    <Property Name="UserId" Type="int" />
-    <Property Name="PetIdAdoptionId" Type="int" />
-    <Property Name="State" Type="varchar" MaxLength="3" />
+    <Property Name="AdoptionRequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="PetIdAdoptionId" Type="int" Nullable="false" />
+    <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Pet">
     <Key>
       <PropertyRef Name="PetId" />
     </Key>
     <Property Name="PetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserId" Type="int" />
+    <Property Name="UserId" Type="int" Nullable="false" />
     <Property Name="NamePet" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Description" Type="varchar(max)" Nullable="false" />
     <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
     <Property Name="Type" Type="int" Nullable="false" />
     <Property Name="SpecialFeatures" Type="varchar(max)" Nullable="false" />
-    <Property Name="PetShelterId" Type="int" />
     <Property Name="Age" Type="int" Nullable="false" />
     <Property Name="ImagenUrl" Type="nchar" MaxLength="10" Nullable="false" />
   </EntityType>
@@ -28,14 +28,12 @@
     <Key>
       <PropertyRef Name="PetAdoptionId" />
     </Key>
-    <Property Name="PetAdoptionId" Type="int" Nullable="false" />
+    <Property Name="PetAdoptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PetId" Type="int" Nullable="false" />
     <Property Name="Description" Type="varchar(max)" Nullable="false" />
-    <Property Name="PetShelter" Type="int" />
     <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
-    <Property Name="UserId" Type="int" />
     <Property Name="CreatioDate" Type="datetime" Nullable="false" />
-    <Property Name="EndDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" />
   </EntityType>
   <EntityType Name="PetImage">
     <Key>
@@ -46,39 +44,13 @@
     <Property Name="ImageUrl" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
   </EntityType>
-  <EntityType Name="PetShelter">
+  <EntityType Name="SessionUser">
     <Key>
-      <PropertyRef Name="PetShelterId" />
+      <PropertyRef Name="SessionUserId" />
     </Key>
-    <Property Name="PetShelterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SessionUserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
-    <Property Name="Name" Type="int" Nullable="false" />
-    <Property Name="Phone" Type="int" Nullable="false" />
-    <Property Name="Descriptiom" Type="varchar(max)" Nullable="false" />
-    <Property Name="Capacity" Type="int" Nullable="false" />
-    <Property Name="AviableCapacity" Type="int" Nullable="false" />
-    <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
-    <Property Name="ImagenUrl" Type="varchar" MaxLength="50" />
-  </EntityType>
-  <EntityType Name="PetShelterImage">
-    <Key>
-      <PropertyRef Name="PetShelterImage" />
-    </Key>
-    <Property Name="PetShelterImage" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PetShelterId" Type="int" Nullable="false" />
-    <Property Name="ImageUrl" Type="int" Nullable="false" />
-    <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
-  </EntityType>
-  <EntityType Name="PetShelterLocal">
-    <Key>
-      <PropertyRef Name="PetShelterLocalId" />
-    </Key>
-    <Property Name="PetShelterLocalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Address" Type="int" Nullable="false" />
-    <Property Name="Phone" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Description" Type="varchar(max)" Nullable="false" />
-    <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
-    <Property Name="PetShelterId" Type="int" Nullable="false" />
+    <Property Name="Token" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -93,11 +65,13 @@
     <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Address" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="State" Type="varchar" MaxLength="3" Nullable="false" />
-    <Property Name="PetShelter" Type="int" />
     <Property Name="Phone" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="Capacity" Type="int" />
+    <Property Name="AviableCapacity" Type="int" />
   </EntityType>
-  <Association Name="FK_AdoptionRequest_PetAdoption">
-    <End Role="PetAdoption" Type="Self.PetAdoption" Multiplicity="0..1" />
+  <Association Name="FK_AdoptionRequest_PetAdoption1">
+    <End Role="PetAdoption" Type="Self.PetAdoption" Multiplicity="1" />
     <End Role="AdoptionRequest" Type="Self.AdoptionRequest" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="PetAdoption">
@@ -109,7 +83,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_AdoptionRequest_User">
-    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="1" />
     <End Role="AdoptionRequest" Type="Self.AdoptionRequest" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="User">
@@ -120,20 +94,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Pet_PetShelter">
-    <End Role="PetShelter" Type="Self.PetShelter" Multiplicity="0..1" />
-    <End Role="Pet" Type="Self.Pet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PetShelter">
-        <PropertyRef Name="PetShelterId" />
-      </Principal>
-      <Dependent Role="Pet">
-        <PropertyRef Name="PetShelterId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Pet_User">
-    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="1" />
     <End Role="Pet" Type="Self.Pet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="User">
@@ -141,6 +103,18 @@
       </Principal>
       <Dependent Role="Pet">
         <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PetAdoption_Pet">
+    <End Role="Pet" Type="Self.Pet" Multiplicity="1" />
+    <End Role="PetAdoption" Type="Self.PetAdoption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pet">
+        <PropertyRef Name="PetId" />
+      </Principal>
+      <Dependent Role="PetAdoption">
+        <PropertyRef Name="PetId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -156,39 +130,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PetShelter_User">
+  <Association Name="FK_SessionUser_User">
     <End Role="User" Type="Self.User" Multiplicity="1" />
-    <End Role="PetShelter" Type="Self.PetShelter" Multiplicity="*" />
+    <End Role="SessionUser" Type="Self.SessionUser" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="User">
         <PropertyRef Name="UserId" />
       </Principal>
-      <Dependent Role="PetShelter">
+      <Dependent Role="SessionUser">
         <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PetShelterImage_PetShelter">
-    <End Role="PetShelter" Type="Self.PetShelter" Multiplicity="1" />
-    <End Role="PetShelterImage" Type="Self.PetShelterImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PetShelter">
-        <PropertyRef Name="PetShelterId" />
-      </Principal>
-      <Dependent Role="PetShelterImage">
-        <PropertyRef Name="PetShelterId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PetShelterLocal_PetShelter">
-    <End Role="PetShelter" Type="Self.PetShelter" Multiplicity="1" />
-    <End Role="PetShelterLocal" Type="Self.PetShelterLocal" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PetShelter">
-        <PropertyRef Name="PetShelterId" />
-      </Principal>
-      <Dependent Role="PetShelterLocal">
-        <PropertyRef Name="PetShelterId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -197,11 +147,9 @@
     <EntitySet Name="Pet" EntityType="Self.Pet" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PetAdoption" EntityType="Self.PetAdoption" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PetImage" EntityType="Self.PetImage" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="PetShelter" EntityType="Self.PetShelter" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="PetShelterImage" EntityType="Self.PetShelterImage" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="PetShelterLocal" EntityType="Self.PetShelterLocal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SessionUser" EntityType="Self.SessionUser" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_AdoptionRequest_PetAdoption" Association="Self.FK_AdoptionRequest_PetAdoption">
+    <AssociationSet Name="FK_AdoptionRequest_PetAdoption1" Association="Self.FK_AdoptionRequest_PetAdoption1">
       <End Role="PetAdoption" EntitySet="PetAdoption" />
       <End Role="AdoptionRequest" EntitySet="AdoptionRequest" />
     </AssociationSet>
@@ -209,29 +157,21 @@
       <End Role="User" EntitySet="User" />
       <End Role="AdoptionRequest" EntitySet="AdoptionRequest" />
     </AssociationSet>
-    <AssociationSet Name="FK_Pet_PetShelter" Association="Self.FK_Pet_PetShelter">
-      <End Role="PetShelter" EntitySet="PetShelter" />
-      <End Role="Pet" EntitySet="Pet" />
-    </AssociationSet>
     <AssociationSet Name="FK_Pet_User" Association="Self.FK_Pet_User">
       <End Role="User" EntitySet="User" />
       <End Role="Pet" EntitySet="Pet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PetAdoption_Pet" Association="Self.FK_PetAdoption_Pet">
+      <End Role="Pet" EntitySet="Pet" />
+      <End Role="PetAdoption" EntitySet="PetAdoption" />
     </AssociationSet>
     <AssociationSet Name="FK_PetImage_Pet" Association="Self.FK_PetImage_Pet">
       <End Role="Pet" EntitySet="Pet" />
       <End Role="PetImage" EntitySet="PetImage" />
     </AssociationSet>
-    <AssociationSet Name="FK_PetShelter_User" Association="Self.FK_PetShelter_User">
+    <AssociationSet Name="FK_SessionUser_User" Association="Self.FK_SessionUser_User">
       <End Role="User" EntitySet="User" />
-      <End Role="PetShelter" EntitySet="PetShelter" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PetShelterImage_PetShelter" Association="Self.FK_PetShelterImage_PetShelter">
-      <End Role="PetShelter" EntitySet="PetShelter" />
-      <End Role="PetShelterImage" EntitySet="PetShelterImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PetShelterLocal_PetShelter" Association="Self.FK_PetShelterLocal_PetShelter">
-      <End Role="PetShelter" EntitySet="PetShelter" />
-      <End Role="PetShelterLocal" EntitySet="PetShelterLocal" />
+      <End Role="SessionUser" EntitySet="SessionUser" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

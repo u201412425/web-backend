@@ -18,7 +18,7 @@ namespace DoggyStyleWS.Controllers
             var response = new GenericObjectVM<List<PetJson>>();
             try
             {
-                var listPets = context.Pet.Where(x => x.UserId == id).Select(x=> new PetJson {
+                var listPets = context.Pet.Where(x => x.UserId == id &&  x.State.Equals("ACT")).Select(x=> new PetJson {
                     PetId= x.PetId,
                     UserId= x.UserId,
                     NamePet= x.NamePet,
@@ -26,7 +26,6 @@ namespace DoggyStyleWS.Controllers
                     State = x.State,
                     Type = x.Type,
                     SpecialFeatures = x.SpecialFeatures,
-                    PetShelterId = x.PetShelterId,
                     Age = x.Age,
                     ImagenUrl = x.Description
                 }).ToList();
@@ -58,7 +57,6 @@ namespace DoggyStyleWS.Controllers
                     State = x.State,
                     Type = x.Type,
                     SpecialFeatures = x.SpecialFeatures,
-                    PetShelterId = x.PetShelterId,
                     Age = x.Age,
                     ImagenUrl = x.Description
                 }).ToList();
@@ -77,9 +75,9 @@ namespace DoggyStyleWS.Controllers
 
         }
 
-        public GenericObjectVM<Pet> Post([FromBody]CreatePetViewModel model)
+        public GenericObjectVM<String> Post([FromBody]CreatePetViewModel model)
         {
-            var response = new GenericObjectVM<Pet>();
+            var response = new GenericObjectVM<String>();
             try
             {
                 Pet pet = new Pet();
@@ -89,12 +87,11 @@ namespace DoggyStyleWS.Controllers
                 pet.Type = model.Type;
                 pet.SpecialFeatures = model.SpecialFeatures;
                 pet.Age = model.Age;
-                pet.PetShelterId = model.PetShelterId;
                 pet.State = "ACT";
                 context.Pet.Add(pet);
                 context.SaveChanges();
                 response.Code = (int)HttpStatusCode.OK;
-                response.Result = pet;
+                response.Result = "Finalizado";
                 response.Message = "Successful Create";
                 return response;
             }
@@ -127,16 +124,31 @@ namespace DoggyStyleWS.Controllers
                     response.Result = null;
                     response.Message = "Pet Not Found";
                 }
+                User user = context.User.Find(model.UserId);
                 pet.UserId = model.UserId;
                 pet.NamePet = model.NamePet;
                 pet.Description = model.Description;
                 pet.Type = model.Type;
                 pet.SpecialFeatures = model.SpecialFeatures;
                 pet.Age = model.Age;
-                pet.PetShelterId = model.PetShelterId;
-                pet.State = model.State;
-      
+                if (user.Type == 2 && id == 0)
+                {
+                    pet.State = "ADO";
+                    user.AviableCapacity = user.AviableCapacity - 1;
+                }
+                else
+                    pet.State = model.State;
+
+
                 context.SaveChanges();
+                if (user.Type == 2 && id ==0)
+                {
+                    PetAdoption petAdoption = new PetAdoption();
+                    petAdoption.PetId = pet.PetId;
+                    petAdoption.Description = "Albergue";
+                    petAdoption.State = "ACT";
+                    petAdoption.CreatioDate = DateTime.Now;
+                }
                 response.Code = (int)HttpStatusCode.OK;
                 response.Result = "Completo";
                 response.Message = "Successful Update";
@@ -156,8 +168,8 @@ namespace DoggyStyleWS.Controllers
         public GenericObjectVM<String> Delete(int id)
         {
             var responseBody = new GenericObjectVM<String>();
-            Pet user = context.Pet.Find(id);
-            context.Pet.Remove(user);
+            Pet pet = context.Pet.Find(id);
+            pet.State = "INA";
             context.SaveChanges();
             responseBody.Message = "Correcto";
             responseBody.Result = "Eliminado";

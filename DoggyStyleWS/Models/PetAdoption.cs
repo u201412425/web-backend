@@ -23,12 +23,11 @@ namespace DoggyStyleWS.Models
         public int PetAdoptionId { get; set; }
         public int PetId { get; set; }
         public string Description { get; set; }
-        public Nullable<int> PetShelter { get; set; }
         public string State { get; set; }
-        public Nullable<int> UserId { get; set; }
         public System.DateTime CreatioDate { get; set; }
-        public System.DateTime EndDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
     
+        public virtual Pet Pet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdoptionRequest> AdoptionRequest { get; set; }
     }
